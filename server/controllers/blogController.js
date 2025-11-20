@@ -4,87 +4,41 @@ import Blog from '../models/Blog.js';
 import 'dotenv/config';
 import Comment from '../models/Comment.js';
 import main from '../configs/gemini.js';
+import { response } from 'express';
 
 const addBlog = async(req, res) => {
     try {
-        console.log("req.body: ",req.body);
-        console.log(req.file);
-        const {title, subTitle, description, category} = req.body;
-        const { isPublished } = JSON.parse(req.body.isPublishedReq);
+        const {title, subTitle, description, category, isPublished} = JSON.parse(req.body.blog);
         const imageFile = req.file;
 
-        // const isPublishedObj = JSON.parse(isPublishedReq)
-
-        // console.log("isPublished", isPublishedObj);
-        // console.log(typeof(isPublishedObj));
-
-        // const isPublishedBool = isPublishedObj["isPublished"];
-
-        // console.log("isPublishedBool: ", isPublishedBool);
-        // console.log(typeof(isPublishedBool));
-
-        // check if all fields are present
-        if (!title || !description || !category || !isPublished){
-            res.json({success: false, message: "All fields are required"});
+        if (!title || !description || !category || !imageFile){
+            return res.json({success: false, message: "All fields are required"});
         }
 
-        // const fileBuffer = fs.readFileSync(imageFile.path);
+        const fileBuffer = fs.readFileSync(imageFile.path);
 
-        // console.log("fileBuffer", fileBuffer);
+        const response = await new ImageKit({
+            file: fileBuffer,
+            fileName: imageFile.originalname,
+            folder: '/blogs'
+        })
 
-        const client = new ImageKit({
-            publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
-            privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
-            urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
-        });
-
-        // console.log("client: ", client.files);
-
-        const response = await client.files.upload({ 
-            file: fs.createReadStream(`${imageFile.path}`), 
-            fileName: `${imageFile.fileName}`,
-            folder: "/blogs"
-        });
-
-        // const response = await client.files.upload({
-        //     file: imageFile,
-        //     fileName: imageFile.originalname,
-        //     folder: "/blogs"
-        // });
-
-        // console.log("ImageKit res: ", response);
-
-        const transformedUrl = client.helper.buildSrc({
-            urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
-            src: response.filePath,
+        const optimizedImageUrl = response.url({
+            path: response.filePath,
             transformation: [
-                {
-                    quality: 'auto',
-                    format: 'webp',
-                    width: 1280
-                },
-            ],
-        });
+                {quality: 'auto'},
+                {format: 'webp'},
+                {width: '1280'}
+            ]
+        })
 
-        console.log("transformedUrl: ", transformedUrl);
-
-        const image = transformedUrl;
-        // const isPublished = isPublishedBool
+        const image = optimizedImageUrl;
 
         await Blog.create({title, subTitle, description, category, image, isPublished});
 
         res.json({success: true, message: "Blog added successfully"});
-
-        // const response = await imagekit;
-
-        // const imagekit = new ImageKit({
-        //     publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
-        //     privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
-        //     urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
-        // });
-
-    } catch (error) {
-        console.log("Error while adding blog");
+    }
+    catch(error){
         res.json({success: false, message: error.message});
     }
 }
