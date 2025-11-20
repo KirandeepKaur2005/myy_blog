@@ -5,7 +5,7 @@ const BlogCard = ({blog}) => {
     const {title, description, category, image, _id} = blog;
     const navigate = useNavigate();
   return (
-    <div onClick={() => navigate(`/blog/get/${_id}`)} className='w-full rounded-lg shadow overflow-hidden cursor-pointer duration-300 hover:scale-102 hover:shadow-primary/25'>
+    <div onClick={() => navigate(`/blog/${_id}`)} className='w-full rounded-lg shadow overflow-hidden cursor-pointer duration-300 hover:scale-102 hover:shadow-primary/25'>
       <img src={image} alt="" className='aspect-video' />
       <span className='text-primary px-3 py-1 mx-5 inline-block mt-4 rounded-full bg-primary/20 text-xs'>{category}</span>
       <div className='px-4 py-5'>

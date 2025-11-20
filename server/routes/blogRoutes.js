@@ -20,6 +20,14 @@ blogRouter.post("/add-comment", addComments);
 
 blogRouter.post("/generate", auth, generateContent);
 
-blogRouter.get("/get/:blogId", getBlogById);
+// IMPORTANT FIX — prevent Vercel GET /add error
+blogRouter.get("/add", (req, res) => {
+  res.status(405).json({
+    success: false,
+    message: "Use POST /add instead of GET /add"
+  });
+});
+
+blogRouter.get("/:blogId", getBlogById);
 
 export default blogRouter;
