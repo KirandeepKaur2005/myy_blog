@@ -61,7 +61,7 @@ const AddBlog = () => {
       console.log("error.message: ", error.message);
       toast.error(error.message);
     } finally {
-      isAdding(false)
+      setIsAdding(false)   
     }
 
   }
