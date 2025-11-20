@@ -31,12 +31,15 @@ const AddBlog = () => {
       const formData = new FormData();
       formData.append('image', image);
       formData.append('title', title);
+      console.log("title: ", title);
       formData.append('subTitle', subTitle);
+      console.log("subtitle: ", subTitle);
       formData.append('description', quillRef.current.root.innerHTML);
+      console.log("desc innerHTML: ", quillRef.current.root.innerHTML);
       formData.append('category', category);
+      console.log("category: ", category);
       formData.append('isPublishedReq', JSON.stringify({ isPublished: isPublished }));
-
-      console.log("formData: ", formData);
+      console.log("isPublished: ", JSON.stringify({ isPublished: isPublished }));
 
       const {data} = await axios.post('/api/blog/create', formData, {
         headers: {
