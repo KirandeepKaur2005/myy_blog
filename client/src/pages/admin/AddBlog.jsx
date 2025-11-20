@@ -94,7 +94,7 @@ const AddBlog = () => {
 
   return (
     <div className='flex-1 bg-blue-50/50 h-full overflow-scroll rounded-lg'>
-      <form onSubmit={handleSubmit} action="" className='bg-white shadow max-w-4xl w-full rounded-lg p-4 md:p-10 sm:m-10'>
+      <form onSubmit={handleSubmit} className='bg-white shadow max-w-4xl w-full rounded-lg p-4 md:p-10 sm:m-10'>
         <p>Upload thumbnail</p>
         <label htmlFor="image">
           <img src={!image ? assets.upload_area : URL.createObjectURL(image)} alt="image" className='mt-2 h-16 rounded cursor pointer' />
