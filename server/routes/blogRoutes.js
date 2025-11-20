@@ -1,0 +1,26 @@
+import express, { Router } from 'express'
+import { addBlog, addComments, deleteBlogById, generateContent, getAllBlogs, getBlogById, getBlogComments, togglePublish } from '../controllers/blogController.js'
+import upload from '../middlewares/multer.js';
+import auth from '../middlewares/auth.js';
+
+const blogRouter = Router();
+
+//<---- GET routes ----> 
+// blogs routes
+blogRouter.get("/get-all-blogs", getAllBlogs);
+blogRouter.post("/get-blog-comments", getBlogComments);   // comment routes
+blogRouter.get("/:blogId", getBlogById);
+
+
+
+//<---- POST routes ----> 
+// blogs routes
+blogRouter.post("/add", upload.single('image'), auth, addBlog);
+blogRouter.post("/delele-blog", auth, deleteBlogById);
+blogRouter.post("/toggle-isPublished", auth, togglePublish);
+// comment routes
+blogRouter.post("/add-comment", addComments);
+
+blogRouter.post("/generate", auth, generateContent);
+
+export default blogRouter;
