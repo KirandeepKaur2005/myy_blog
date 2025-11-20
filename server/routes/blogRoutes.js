@@ -5,29 +5,27 @@ import auth from '../middlewares/auth.js';
 
 const blogRouter = Router();
 
-//<---- GET routes ----> 
-// blogs routes
-blogRouter.get("/get-all-blogs", getAllBlogs);
-blogRouter.post("/get-blog-comments", getBlogComments);   // comment routes
-
-//<---- POST routes ----> 
-// blogs routes
-blogRouter.post("/create", upload.single('image'), auth, addBlog);
-blogRouter.post("/delele-blog", auth, deleteBlogById);
-blogRouter.post("/toggle-isPublished", auth, togglePublish);
-// comment routes
-blogRouter.post("/add-comment", addComments);
-
-blogRouter.post("/generate", auth, generateContent);
-
-// IMPORTANT FIX — prevent Vercel GET /add error
+// BLOCK GET /create FIRST
 blogRouter.get("/create", (req, res) => {
-  res.status(405).json({
+  return res.status(405).json({
     success: false,
     message: "GET not allowed on /create. Use POST."
   });
 });
 
+//<---- GET routes ----> 
+blogRouter.get("/get-all-blogs", getAllBlogs);
+blogRouter.post("/get-blog-comments", getBlogComments);
+
+//<---- POST routes ----> 
+blogRouter.post("/create", upload.single('image'), auth, addBlog);
+blogRouter.post("/delele-blog", auth, deleteBlogById);
+blogRouter.post("/toggle-isPublished", auth, togglePublish);
+blogRouter.post("/add-comment", addComments);
+
+blogRouter.post("/generate", auth, generateContent);
+
+// dynamic route LAST
 blogRouter.get("/:blogId", getBlogById);
 
 
