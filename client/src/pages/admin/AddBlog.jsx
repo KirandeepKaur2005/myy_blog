@@ -24,8 +24,7 @@ const AddBlog = () => {
 
   const {axios} = useAppContext();
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
+  const handleSubmit = async() => {
     try {
       setIsAdding(true);
       const formData = new FormData();
