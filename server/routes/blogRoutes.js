@@ -28,6 +28,6 @@ blogRouter.post("/generate", auth, generateContent);
 //   });
 // });
 
-blogRouter.get("/:blogId", getBlogById);
+blogRouter.get("/:blogId([0-9a-fA-F]{24})", getBlogById);
 
 export default blogRouter;
