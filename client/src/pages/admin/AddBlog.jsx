@@ -36,6 +36,8 @@ const AddBlog = () => {
       formData.append('category', category);
       formData.append('isPublishedReq', JSON.stringify({ isPublished: isPublished }));
 
+      console.log("formData: ", formData);
+
       const {data} = await axios.post('/api/blog/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -94,7 +96,7 @@ const AddBlog = () => {
 
   return (
     <div className='flex-1 bg-blue-50/50 h-full overflow-scroll rounded-lg'>
-      <form onSubmit={handleSubmit} method="POST" encType="multipart/form-data" className='bg-white shadow max-w-4xl w-full rounded-lg p-4 md:p-10 sm:m-10'>
+      <div className='bg-white shadow max-w-4xl w-full rounded-lg p-4 md:p-10 sm:m-10'>
         <p>Upload thumbnail</p>
         <label htmlFor="image">
           <img src={!image ? assets.upload_area : URL.createObjectURL(image)} alt="image" className='mt-2 h-16 rounded cursor pointer' />
@@ -127,8 +129,8 @@ const AddBlog = () => {
           <input type='checkbox' checked={isPublished} onChange={(e) => setIsPublished(e.target.checked)} className='scale-125 cursor-pointer'/>
         </div>
 
-        <button disabled={isAdding} type="submit" className='mt-6 px-6 py-2 bg-primary/90 hover:bg-primary rounded text-white cursor-pointer'>{isAdding ? 'Adding...' : 'Add blog'}</button>
-      </form>
+        <button disabled={isAdding} onClick={handleSubmit} className='mt-6 px-6 py-2 bg-primary/90 hover:bg-primary rounded text-white cursor-pointer'>{isAdding ? 'Adding...' : 'Add blog'}</button>
+      </div>
     </div>
   )
 }
