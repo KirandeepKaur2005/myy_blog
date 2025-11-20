@@ -36,7 +36,7 @@ const AddBlog = () => {
       formData.append('category', category);
       formData.append('isPublishedReq', JSON.stringify({ isPublished: isPublished }));
 
-      const {data} = await axios.post('/api/blog/add', formData, {
+      const {data} = await axios.post('/api/blog/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

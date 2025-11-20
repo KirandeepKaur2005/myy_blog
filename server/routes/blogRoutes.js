@@ -12,7 +12,7 @@ blogRouter.post("/get-blog-comments", getBlogComments);   // comment routes
 
 //<---- POST routes ----> 
 // blogs routes
-blogRouter.post("/add", upload.single('image'), auth, addBlog);
+blogRouter.post("/create", upload.single('image'), auth, addBlog);
 blogRouter.post("/delele-blog", auth, deleteBlogById);
 blogRouter.post("/toggle-isPublished", auth, togglePublish);
 // comment routes
