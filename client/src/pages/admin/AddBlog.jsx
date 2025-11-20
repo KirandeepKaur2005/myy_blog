@@ -30,6 +30,7 @@ const AddBlog = () => {
       setIsAdding(true);
       const formData = new FormData();
       formData.append('image', image);
+      console.log(image)
       formData.append('title', title);
       console.log("title: ", title);
       formData.append('subTitle', subTitle);
