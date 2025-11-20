@@ -9,9 +9,6 @@ const blogRouter = Router();
 // blogs routes
 blogRouter.get("/get-all-blogs", getAllBlogs);
 blogRouter.post("/get-blog-comments", getBlogComments);   // comment routes
-blogRouter.get("/:blogId", getBlogById);
-
-
 
 //<---- POST routes ----> 
 // blogs routes
@@ -22,5 +19,7 @@ blogRouter.post("/toggle-isPublished", auth, togglePublish);
 blogRouter.post("/add-comment", addComments);
 
 blogRouter.post("/generate", auth, generateContent);
+
+blogRouter.get("/get/:blogId", getBlogById);
 
 export default blogRouter;
