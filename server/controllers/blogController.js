@@ -6,6 +6,10 @@ import main from '../configs/gemini.js';
 
 const addBlog = async(req, res) => {
     try {
+        console.log("BODY:", req.body);
+        console.log("FILE:", req.file);
+        console.log("BLOG FIELD:", req.body.blog);
+
         const {title, subTitle, description, category, isPublished} = JSON.parse(req.body.blog);
         const imageFile = req.file;
 
@@ -27,14 +31,14 @@ const addBlog = async(req, res) => {
             folder: "/blogs",
         });
 
-        const optimizedImageUrl = response.url({
+        const optimizedImageUrl = imagekit.url({
             path: response.filePath,
             transformation: [
-                {quality: 'auto'},
-                {format: 'webp'},
-                {width: '1280'}
+                { quality: "auto" },
+                { format: "webp" },
+                { width: "1280" }
             ]
-        })
+        });
 
         const image = optimizedImageUrl;
 
