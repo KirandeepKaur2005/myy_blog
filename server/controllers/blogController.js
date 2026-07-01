@@ -1,4 +1,4 @@
-import ImageKit from '@imagekit/nodejs';
+import ImageKit from "imagekit";
 import Blog from '../models/Blog.js';
 import 'dotenv/config';
 import Comment from '../models/Comment.js';
