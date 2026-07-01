@@ -27,19 +27,16 @@ const AddBlog = () => {
   const handleSubmit = async() => {
     try {
       setIsAdding(true);
+      
+      const blog = {
+        title, subTitle, 
+        description: quillRef.current.root.innerHTML, 
+        category, isPublished
+      }
+
       const formData = new FormData();
-      formData.append('image', image);
-      console.log(image)
-      formData.append('title', title);
-      console.log("title: ", title);
-      formData.append('subTitle', subTitle);
-      console.log("subtitle: ", subTitle);
-      formData.append('description', quillRef.current.root.innerHTML);
-      console.log("desc innerHTML: ", quillRef.current.root.innerHTML);
-      formData.append('category', category);
-      console.log("category: ", category);
-      formData.append('isPublishedReq', JSON.stringify({ isPublished: isPublished }));
-      console.log("isPublished: ", JSON.stringify({ isPublished: isPublished }));
+      formData.append('blog', JSON.stringify(blog))
+      formData.append('image', image)
 
       const {data} = await axios.post('/api/blog/create', formData, {
         headers: {

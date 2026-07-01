@@ -1,10 +1,8 @@
 import ImageKit from '@imagekit/nodejs';
-import fs from 'fs';
 import Blog from '../models/Blog.js';
 import 'dotenv/config';
 import Comment from '../models/Comment.js';
 import main from '../configs/gemini.js';
-import { response } from 'express';
 
 const addBlog = async(req, res) => {
     try {
@@ -15,13 +13,19 @@ const addBlog = async(req, res) => {
             return res.json({success: false, message: "All fields are required"});
         }
 
-        const fileBuffer = fs.readFileSync(imageFile.path);
+        const fileBuffer = imageFile.buffer;
 
-        const response = await new ImageKit({
+        const imagekit = new ImageKit({
+            publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+            privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+            urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+        });
+
+        const response = await imagekit.upload({
             file: fileBuffer,
             fileName: imageFile.originalname,
-            folder: '/blogs'
-        })
+            folder: "/blogs",
+        });
 
         const optimizedImageUrl = response.url({
             path: response.filePath,
