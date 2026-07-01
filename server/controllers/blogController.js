@@ -25,6 +25,9 @@ const addBlog = async(req, res) => {
             urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
         });
 
+        console.log(imagekit);
+        console.log(typeof imagekit.upload);
+
         const response = await imagekit.upload({
             file: fileBuffer,
             fileName: imageFile.originalname,
